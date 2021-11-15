@@ -118,10 +118,10 @@ console.log(quickSort([6, 1, 23, 4, 2, 3])); // [1, 2, 3, 4, 6, 23]
 // 계수 정렬은 숫자에 대해서만 동작, 특정 범위도 주어져야 한다. 각 항목의 등장 횟수를 센다.
 function countSort(arr) {
   let hash = {};
-  for (let i = 0; i < arr.length; i++) {
-    if (hash[arr[i]]) hash[arr[i]]++;
-    else hash[arr[i]] = 1;
-  }
+  arr.forEach((v) => {
+    if (hash[v]) hash[v]++;
+    else hash[v] = 1;
+  });
   const result = [];
   for (let key in hash) {
     result.push(Array(hash[key]).fill(Math.floor(key)));
