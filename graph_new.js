@@ -354,3 +354,95 @@ const kruskal = new Kruskal(4, [
   console.log(graph2);
 });
 // ();
+
+///////////////////////////////////////////////21 11 17 그래프
+class Graph {
+  constructor() {
+    this.edges = {};
+  }
+
+  addVertex(vertex) {
+    this.edges[vertex] = {};
+  }
+
+  addEdge(from, to, weight = 0) {
+    this.edges[from][to] = weight;
+    this.edges[to][from] = weight;
+  }
+
+  dfs(vertex) {
+    const dfsHelper = (vertex, visited) => {
+      console.log('dfs vertex', vertex);
+      visited[vertex] = true;
+      for (const adjVertex in this.edges[vertex]) {
+        if (!visited[adjVertex]) {
+          dfsHelper(adjVertex, visited);
+        }
+      }
+    };
+    dfsHelper(vertex, {});
+  }
+
+  bfs(vertex) {
+    const queue = [vertex];
+    const visited = {};
+    while (queue.length) {
+      const currentNode = queue.shift();
+      if (!visited[currentNode]) {
+        console.log('bfs vertex', currentNode);
+        visited[currentNode] = true;
+        for (let adjVertex in this.edges[currentNode]) {
+          queue.push(adjVertex);
+        }
+      }
+    }
+  }
+
+  dijkstra(start) {
+    const extractMinVertex = (queue, dist) => {
+      let minDistVertex = null,
+        minDist = Infinity;
+      for (let vertex in queue) {
+        if (dist[vertex] < minDist) {
+          minDist = dist[vertex];
+          minDistVertex = vertex;
+        }
+        queue[vertex][dist];
+      }
+      return minDistVertex;
+    };
+    const queue = { ...this.edges },
+      dist = {};
+    for (const vertex in this.edges) {
+      dist[vertex] = Infinity;
+    }
+    dist[start] = 0;
+    while (Object.keys(queue).length) {
+      const min = extractMinVertex(queue, dist);
+      delete queue[min];
+      for (let adjVertex in this.edges[min]) {
+        const alt = dist[min] + this.edges[min][adjVertex];
+        if (alt < dist[adjVertex]) dist[adjVertex] = alt;
+      }
+    }
+    return dist;
+  }
+}
+
+const graph = new Graph();
+graph.addVertex(1);
+graph.addVertex(2);
+graph.addVertex(3);
+graph.addVertex(4);
+graph.addVertex(5);
+graph.addVertex(6);
+graph.addEdge(1, 2, 1);
+graph.addEdge(2, 5, 2);
+graph.addEdge(1, 3, 3);
+graph.addEdge(2, 3, 4);
+graph.addEdge(2, 4, 5);
+graph.addEdge(3, 4, 6);
+graph.addEdge(3, 6, 7);
+// graph.bfs(1);
+// graph.dfs(1);
+console.log(graph.dijkstra(1));
