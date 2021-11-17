@@ -403,8 +403,9 @@ class Graph {
       let minDistVertex = null,
         minDist = Infinity;
       for (let vertex in queue) {
-        if (dist[vertex] < minDist) {
-          minDist = dist[vertex];
+        const distToVertex = dist[vertex];
+        if (distToVertex < minDist) {
+          minDist = distToVertex;
           minDistVertex = vertex;
         }
         queue[vertex][dist];
